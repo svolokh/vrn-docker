@@ -6,9 +6,11 @@ source /content/torch/install/bin/torch-activate
 ls /content/data
 
 export TERM=dumb
-TMPDIR=/tmp/
+TMPDIR=/content/tmp
 INPUT_WDIR=$2
 INPUT=$(basename "$INPUT_WDIR")
+
+mkdir -p $(TMPDIR)
 
 echo "Please wait. Your image is being processed.";
 
