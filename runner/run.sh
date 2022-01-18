@@ -5,8 +5,6 @@ source /content/torch/install/bin/torch-activate
 
 ls /content/data
 
-cd /runner
-
 export TERM=dumb
 TMPDIR=/tmp/
 INPUT_WDIR=$2
