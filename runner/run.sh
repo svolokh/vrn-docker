@@ -10,7 +10,7 @@ TMPDIR=/content/tmp
 INPUT_WDIR=$2
 INPUT=$(basename "$INPUT_WDIR")
 
-mkdir -p $(TMPDIR)
+mkdir -p "$TMPDIR"
 
 echo "Please wait. Your image is being processed.";
 
