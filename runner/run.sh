@@ -3,7 +3,7 @@
 source /etc/profile
 source /content/torch/install/bin/torch-activate
 
-ls /data
+ls /content/data
 
 cd /runner
 
