@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source /etc/profile
-source /root/usr/local/torch/install/bin/torch-activate
+source /content/torch/install/bin/torch-activate
 
 ls /data
 
