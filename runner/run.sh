@@ -7,28 +7,26 @@ ls /content/data
 
 export TERM=dumb
 TMPDIR=/content/tmp
-INPUT_WDIR=$2
-INPUT=$(basename "$INPUT_WDIR")
+INPUT=$2
 
 mkdir -p "$TMPDIR"
 
 echo "Please wait. Your image is being processed.";
 
-convert -auto-orient $INPUT_WDIR \
-    $TMPDIR/$INPUT
+convert -auto-orient $INPUT $TMPDIR/"$(basename $INPUT)"
 
 pushd face-alignment > /dev/null
 th main.lua -model 2D-FAN-300W.t7 \
    -input $TMPDIR/$INPUT \
    -detectFaces true \
    -mode generate \
-   -output $TMPDIR/$INPUT.txt \
+   -output $TMPDIR/"$(basename $INPUT)".txt \
    -device cpu \
    -outputFormat txt
 
 exit=$?
 
-if [ ! -f $TMPDIR/$INPUT.txt ]; then
+if [ ! -f $TMPDIR/"$(basename $INPUT)".txt ]; then
     rm $TMPDIR/$INPUT
     echo "The face detector failed to find your face."
     cd ../
@@ -63,17 +61,17 @@ awk -F, 'BEGIN {
                 (minX-cenX)*scale,
                 (minY-cenY)*scale,
                 (scale)*100
-   }' $TMPDIR/$INPUT.txt > $TMPDIR/$INPUT.crop
+   }' $TMPDIR/"$(basename $INPUT)".txt > $TMPDIR/"$(basename $INPUT)".crop
 
-cat $TMPDIR/$INPUT.crop | \
+cat $TMPDIR/"$(basename $INPUT)".crop | \
     while read x y scale; do
-    convert $TMPDIR/$INPUT \
+    convert $TMPDIR/"$(basename $INPUT)" \
 	-scale $scale% \
 	-crop 192x192+$x+$y \
 	-background white \
 	-gravity center \
 	-extent 192x192 \
-	$TMPDIR/$INPUT
+	$TMPDIR/"$(basename $INPUT)"
 
     if [ $? -ne 0 ]; then
 	echo "Error occured while cropping the image."
@@ -83,7 +81,7 @@ cat $TMPDIR/$INPUT.crop | \
     echo "Cropped and scaled $fname"
 done
 date
-rm $TMPDIR/$INPUT.crop
+rm $TMPDIR/"$(basename $INPUT)".crop
 
 th process.lua \
    --model vrn-unguided.t7 \
@@ -97,9 +95,9 @@ if [ $? -ne 0 ]; then
 fi
 
 python raw2obj.py \
-    --image $TMPDIR/$INPUT \
-    --volume $TMPDIR/$INPUT.raw \
-    --obj $INPUT_WDIR.obj
+    --image $TMPDIR/"$(basename $INPUT)" \
+    --volume $TMPDIR/"$(basename $INPUT)".raw \
+    --obj /content/data/"$(basename $INPUT)".obj
 
 if [ $? -ne 0 ]; then
     echo "Error occured while extracting the isosurface."
@@ -108,8 +106,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-rm $TMPDIR/$INPUT.txt
-rm $TMPDIR/$INPUT.raw
+rm $TMPDIR/"$(basename $INPUT)".txt
+rm $TMPDIR/"$(basename $INPUT)".raw
 
 
 
