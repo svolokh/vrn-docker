@@ -7,7 +7,7 @@ ls /content/data
 
 export TERM=dumb
 TMPDIR=/content/tmp
-INPUT=$2
+INPUT=$1
 
 mkdir -p "$TMPDIR"
 
