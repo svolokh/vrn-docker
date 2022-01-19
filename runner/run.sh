@@ -85,8 +85,8 @@ rm $TMPDIR/"$(basename $INPUT)".crop
 
 th process.lua \
    --model vrn-unguided.t7 \
-   --input $TMPDIR/$INPUT  \
-   --output $TMPDIR/$INPUT.raw \
+   --input $TMPDIR/"$(basename $INPUT)"  \
+   --output $TMPDIR/"$(basename $INPUT)".raw \
    --device cpu
 
 if [ $? -ne 0 ]; then
