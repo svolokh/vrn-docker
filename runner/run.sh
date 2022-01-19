@@ -17,7 +17,7 @@ convert -auto-orient $INPUT $TMPDIR/"$(basename $INPUT)"
 
 pushd face-alignment > /dev/null
 th main.lua -model 2D-FAN-300W.t7 \
-   -input $TMPDIR/$INPUT \
+   -input $TMPDIR/"$(basename $INPUT)" \
    -detectFaces true \
    -mode generate \
    -output $TMPDIR/"$(basename $INPUT)".txt \
@@ -27,7 +27,7 @@ th main.lua -model 2D-FAN-300W.t7 \
 exit=$?
 
 if [ ! -f $TMPDIR/"$(basename $INPUT)".txt ]; then
-    rm $TMPDIR/$INPUT
+    rm $TMPDIR/"$(basename $INPUT)"
     echo "The face detector failed to find your face."
     cd ../
     exit 1
