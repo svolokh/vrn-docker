@@ -94,7 +94,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-python2.7 raw2obj.py \
+python raw2obj.py \
     --image $TMPDIR/"$(basename $INPUT)" \
     --volume $TMPDIR/"$(basename $INPUT)".raw \
     --obj /content/data/"$(basename $INPUT)".obj
