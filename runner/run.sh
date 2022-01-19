@@ -101,8 +101,8 @@ python raw2obj.py \
 
 if [ $? -ne 0 ]; then
     echo "Error occured while extracting the isosurface."
-    rm $TMPDIR/$INPUT.txt
-    rm $TMPDIR/$INPUT.raw
+    rm $TMPDIR/"$(basename $INPUT)".txt
+    rm $TMPDIR/"$(basename $INPUT)".raw
     exit 1
 fi
 
